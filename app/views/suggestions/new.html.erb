@@ -1,0 +1,5 @@
+<h1>New Suggestion for <%=item.name%> from <%=item.city_id%></h1>
+
+<%= render 'suggestions/form', suggestion: @suggestion,item:item %>
+
+<%= link_to 'Back', suggestions_path %>

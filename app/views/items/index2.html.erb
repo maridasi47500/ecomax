@@ -1,0 +1,40 @@
+<%=content_for :title do %>		
+Voici ce qui se passe en magasin
+<%end%>
+<%=content_for :css do%>
+<link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/css/custom.css">
+<style>
+.span4 {
+width:revert;
+}
+</style>
+
+<%end%>
+
+<%=content_for :banner do %>		
+<div class="fullwidthbanner-container" style="max-height: 400px !important;">
+				<div class="fullwidthbanner">
+                
+                    <ul>
+						
+                      
+                        <li data-transition="fade">
+                        	<!-- LOGO_ARTICLE-->
+                            <img src="http://ecomax.creativ3.com/_layout/images/header-blog-ecomax-anniversaire.jpg"
+                            data-bgposition="top" 
+         					data-bgfit="contain" 
+         					data-bgrepeat="no-repeat">                          
+                        </li>
+                                                  
+                    </ul>
+                    
+                </div><!-- end .fullwidthbanner -->
+            </div><!-- end .fullwidthbanner-container -->
+
+<%end%>
+<%@items.each_slice(3).to_a.each do |items|%>
+                 	  <div class="row">
+<%=render partial: 'mysuggestion', collection: items, as: :item%>
+</div>
+<%end%>
+

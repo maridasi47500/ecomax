@@ -1,0 +1,2 @@
+class SoldItem < Image
+end

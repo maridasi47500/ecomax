@@ -1,0 +1,32 @@
+<div class="contentModal">    
+<div class="modal-header">
+                    <h1 class="col-xs-10">Se connecter</h1>
+                <button type="button" id="close" class="close" data-dismiss="modal" aria-hidden="true"><i class="far fa-times"></i></button>
+
+
+    </div>
+    <div class="modal-body">
+
+
+<%= form_for(resource, as: resource_name, url: create_userconnexion_path) do |f| %>
+  <div class="field">
+    <%= f.label :email, "E-mail" %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password, "Mot de passe" %><br />
+    <%= f.password_field :password, autocomplete: "current-password" %>
+  </div>
+
+
+  <div class="actions">
+    <%= f.submit "Se connecter" %>
+  </div>
+<% end %>
+                                <a href="" onclick="signup();return false;">
+                                <span>S'inscrire</span>
+                            </a>
+
+</div>
+</div>

@@ -1,0 +1,7 @@
+<%=content_for :title do%>
+New Item
+<%end%>
+
+<%= render 'form', item: @item %>
+
+<%= link_to 'Back', items_path %>

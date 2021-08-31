@@ -1,0 +1,978 @@
+<%=content_for :title do%>
+ARTICLES EN MAGASIN
+<%end%>
+<div class="row">         	    
+<form class="fixed" id="contact-form"  name="contact-form" method="post" action="_layout/php/send.php"> 
+                    <div class="span4">		
+                        <h3 class="titre_select">Recherchez votre ville :</h3>
+                        <!--<p>In luctus egestas ligula. Proin sit amet fringilla est. Donec lacus felis, aliquet ac posuere id,
+                         pretium hendrerit est. Sed congue dictum nulla sit amet malesuada. Proin sit amet urna id odio 
+                         dictum pretium in ut neque. In rhoncus orci vitae nibh venenatis vulputate.</p>-->
+                    </div><!-- end .span4 -->
+                    <div class="span4
+">
+                            <div class="styled-select">
+                               <%=select_tag :town, options_for_select(villes(params[:dpt]))%>                            </div>
+                        
+                    </div><!-- end .span4 -->
+                    <a class="span4 geolocalisation" style="margin-left:10px">
+                        <input type="image" name="image" src="_layout/images/btn_magasin.jpg" class="responsive-img">
+                    </a><!-- end .span4 -->
+              </form>
+                
+                <div class="span12" style="margin-left:0;">
+                    <div class="google-map-magasin map" 
+                        data-zoom="16" 
+                        data-address="Empire State Building, 5th Avenue, New York, Statele Unite ale Americii" 
+                        data-caption="Office location 1" >
+                        <p>This will be replaced with the Google Map.</p>
+                    </div>
+                </div><!-- end .span12 -->
+            </div><!-- end .row -->
+
+            
+        
+            
+            
+           <%=content_for :scriptjs do%>
+    <!-- /// gMap ////////  -->
+	<script src="http://maps.google.com/maps/api/js?sensor=false&key=AIzaSyBtr-GEBt3vm0p5sAsQkGlh2d4kgPtSnwM"></script>
+	<!-- <script src="http://ecomax.creativ3.com/_layout/js/gmap/jquery.gmap.min.js"></script> -->
+	<script type="text/javascript">
+	
+	function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+	  var R = 6371; // Radius of the earth in km
+	  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+	  var dLon = deg2rad(lon2-lon1); 
+	  var a = 
+		Math.sin(dLat/2) * Math.sin(dLat/2) +
+		Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+		Math.sin(dLon/2) * Math.sin(dLon/2)
+		; 
+	  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+	  var d = R * c; // Distance in km
+	  return d;
+	}
+
+	function deg2rad(deg) {
+	  return deg * (Math.PI/180)
+	}
+	
+	var infowindows = [];
+	
+	$(function(){
+	
+		var magasins =  {
+			"MQ": {
+				"MORNE ROUGE": [{
+					"lat": 14.773944,
+					"long": -61.135139,
+					"title" : "ECOMAX MARTINIQUE - MORNE ROUGE",
+					"zip" : "97260",
+					"adress1" : "29 Avenue Edgard Nestoret",
+					"adress2" : "",
+					"phone1" : "05 96 52 56 96",
+					"phone2" : "05 96 52 51 96",
+					"horaire" : "Lundi au Samedi: 08:00-19:15<br>Dimanche: 08:00-12:00"
+				}],
+				"LE VAUCLIN": [{
+					"lat": 14.546361,
+					"long": -60.840722,
+					"title" : "ECOMAX MARTINIQUE - VAUCLIN",
+					"zip" : "97280",
+					"adress1" : "3 Rue Chandelles",
+					"adress2" : "",
+					"phone1" : "05 96 74 48 38",
+					"phone2" : "05 96 74 30 16",
+					"horaire" : "Lundi au Samedi: 08:00-19:15<br>Dimanche: 08:00-12:00"
+				}],
+				"DUCOS": [{
+					"lat": 14.577694,
+					"long": -60.976333,
+					"title" : "ECOMAX MARTINIQUE - DUCOS 2",
+					"zip" : "97224",
+					"adress1" : "17 Rue de l'Abattoir",
+					"adress2" : "Quartier Fond Panier",
+					"phone1" : "05 96 42 36 52",
+					"phone2" : "05 96 64 79 08",
+					"horaire" : "Lundi au Samedi: 08:00-19:15<br>Dimanche: 08:00-12:00"
+				}, {
+					"lat": 14.571889,
+					"long":  -60.981306,
+					"title" : "ECOMAX MARTINIQUE - DUCOS 1",
+					"zip" : "97224",
+					"adress1" : "ZI Petite Cocotte",
+					"adress2" : "",
+					"phone1" : "05 96 77 04 72",
+					"phone2" : "05 96 77 13 98",
+					"horaire" : "Lundi au Samedi: 08:00-19:15<br>Dimanche: 08:00-12:00"
+				}],
+				"LE LAMENTIN": [{
+					"lat": 14.612917,
+					"long": -60.991167,
+					"title" : "ECOMAX MARTINIQUE - PLACE ARMES",
+					"zip" : "97232",
+					"adress1" : "ZI Place d'Armes",
+					"adress2" : "",
+					"phone1" : "05 96 51 23 75",
+					"phone2" : "05 96 76 64 52",
+					"horaire" : "Lundi au Samedi: 08:00-19:15<br>Dimanche: 08:00-12:00"
+				}, {
+					"lat": 14.629389,
+					"long": -61.015444,
+					"title" : "ECOMAX MARTINIQUE - ACAJOU",
+					"zip" : "97232",
+					"adress1" : "Lotissement Acajou",
+					"adress2" : "Quartier Acajou ",
+					"phone1" : "05 96 73 11 56",
+					"phone2" : "05 96 72 19 63",
+					"horaire" : "Lundi au Samedi: 08:00-19:15<br>Dimanche: 08:00-12:00"
+				}],
+				"FORT DE FRANCE": [{
+					"lat": 14.605083,
+					"long": -61.084028,
+					"title" : "ECOMAX MARTINIQUE - BELLEVUE",
+					"zip" : "97200",
+					"adress1" : "Centre Commercial Bellevue",
+					"adress2" : "",
+					"phone1" : "05 96 61 43 40",
+					"phone2" : "05 96 61 96 37",
+					"horaire" : "Lundi au Samedi: 08:00-19:15<br>Dimanche: 08:00-12:00"
+				}, {
+					"lat": 14.601139,
+					"long": -61.056194,
+					"title" : "ECOMAX MARTINIQUE - VOLGA",
+					"zip" : "97200",
+					"adress1" : "Cité Baie des Tourelles",
+					"adress2" : "",
+					"phone1" : "05 96 63 18 68",
+					"phone2" : "05 96 63 22 68",
+					"horaire" : "Lundi au Samedi: 08:00-18:45<br>Dimanche: 08:00-12:00"
+				}, {
+					"lat": 14.618139,
+					"long": -61.048944,
+					"title" : "ECOMAX MARTINIQUE - MONTGERALD",
+					"zip" : "97200",
+					"adress1" : "Avenue Louis Doumergue - Im. Le Trident",
+					"adress2" : "Quartier Montgérald",
+					"phone1" : "05 96 75 14 11",
+					"phone2" : "05 96 75 14 06",
+					"horaire" : "Lundi au Samedi: 08:00-19:45<br>Dimanche: 08:00-12:00"
+				}],
+				"SAINTE MARIE": [{
+					"lat": 14.781028,
+					"long": -60.993667,
+					"title" : "ECOMAX MARTINIQUE - STE MARIE",
+					"zip" : "97230",
+					"adress1" : "Lot Villeneuve Lassalle",
+					"adress2" : "",
+					"phone1" : "05 96 69 06 24",
+					"phone2" : "05 96 69 15 12",
+					"horaire" : "Lundi au Samedi: 08:00-19:45<br>Dimanche: 08:00-12:00"
+				}],
+				"TRINITE": [{
+					"lat": 14.740500,
+					"long": -60.963306,
+					"title" : "ECOMAX MARTINIQUE - TRINITE",
+					"zip" : "97220",
+					"adress1" : "9 Rue Victor Hugo",
+					"adress2" : "Bourg de Trinité",
+					"phone1" : "05 96 58 25 36",
+					"phone2" : "05 96 58 50 46",
+					"horaire" : "Lundi au Samedi: 08:00-19:15<br>Dimanche: 08:00-12:00"
+				}],
+				"LE DIAMANT": [{
+					"lat": 14.481167,
+					"long":  -61.011417,
+					"title" : "ECOMAX MARTINIQUE - DIAMANT",
+					"zip" : "97223",
+					"adress1" : "90 Rue Justin Roc",
+					"adress2" : "Quartier La Michèle",
+					"phone1" : "05 96 48 57 07",
+					"phone2" : "05 96 48 57 09",
+					"horaire" : "Lundi au Samedi: 08:00-19:45<br>Dimanche: 08:00-12:00"
+				}],
+				"LE ROBERT": [{
+					"lat": 14.676778,
+					"long": -60.943111,
+					"title" : "ECOMAX MARTINIQUE - ROBERT",
+					"zip" : "97231",
+					"adress1" : "Cité Mansarde Catalogne",
+					"adress2" : "",
+					"phone1" : "05 96 65 63 30",
+					"phone2" : "05 96 65 66 69",
+					"horaire" : "Lundi au Samedi: 08:00-19:15<br>Dimanche: 08:00-12:00"
+				}],
+				"RIVIERE SALEE": [{
+					"lat": 14.529417,
+					"long": -60.981750,
+					"title" : "ECOMAX MARTINIQUE - RIVIERE SALEE",
+					"zip" : "97215",
+					"adress1" : "Angle Rue Nelson Mandela/Néré Péria",
+					"adress2" : "",
+					"phone1" : "05 96 38 25 35",
+					"phone2" : "05 96 68 25 52",
+					"horaire" : "Lundi au Samedi: 08:00-19:15<br>Dimanche: 08:00-12:00"
+				}],
+				"SAINT PIERRE": [{
+					"lat": 14.749417,
+					"long": -61.178806,
+					"title" : "ECOMAX MARTINIQUE - ST PIERRE",
+					"zip" : "97250",
+					"adress1" : "Place Marché du Fort",
+					"adress2" : "Quartier du Fort",
+					"phone1" : "05 96 78 30 00",
+					"phone2" : "05 96 78 30 08",
+					"horaire" : "Lundi au Samedi: 08:00-19:15<br>Dimanche: 08:00-12:00"
+				}],
+				"LE MARIN": [{
+					"lat": 14.471583,
+					"long": -60.879083,
+					"title" : "ECOMAX MARTINIQUE - MARIN",
+					"zip" : "97290",
+					"adress1" : "ZAC de Duprey",
+					"adress2" : "",
+					"phone1" : "05 96 48 35 88",
+					"phone2" : "05 96 43 35 87",
+					"horaire" : "Lundi au Samedi: 08:00-19:15<br>Dimanche: 08:00-12:00"
+				}],
+				"TROIS ILETS": [{
+					"lat": 14.535056,
+					"long": -61.029722,
+					"title" : "ECOMAX MARTINIQUE - TROIS ILETS",
+					"zip" : "97229",
+					"adress1" : "Lot Vatable 2000",
+					"adress2" : "Quartier Vatable",
+					"phone1" : "05 96 68 47 64",
+					"phone2" : "05 96 68 47 24",
+					"horaire" : "Lundi au Samedi: 08:00-19:15<br>Dimanche: 08:00-12:00"
+				}],
+				"LE LORRAIN": [{
+					"lat": 14.832806,
+					"long": -61.045000,
+					"title" : "ECOMAX MARTINIQUE - LORRAIN",
+					"zip" : "97214",
+					"adress1" : "Lot. Seguineau",
+					"adress2" : "",
+					"phone1" : "05 96 53 77 34",
+					"phone2" : "05 96 53 77 45",
+					"horaire" : "Lundi au Samedi: 08:00-19:15<br>Dimanche: 08:00-12:00"
+				}],
+				"CASE PILOTE": [{
+					"lat": 14.647833,
+					"long": -61.136528,
+					"title" : "ECOMAX MARTINIQUE - CASE PILOTE",
+					"zip" : "97222",
+					"adress1" : "Usine Quartier Maniba",
+					"adress2" : "",
+					"phone1" : "05 96 78 87 78",
+					"phone2" : "05 96 78 78 66",
+					"horaire" : "Lundi au Samedi: 08:00-19:15<br>Dimanche: 08:00-12:00"
+				}],
+				"LE FRANCOIS": [{
+					"lat": 14.615444,
+					"long": -60.906639,
+					"title" : "ECOMAX MARTINIQUE - FRANCOIS EUCALYPTUS",
+					"zip" : "97240",
+					"adress1" : "Cité Eucalyptus",
+					"adress2" : "",
+					"phone1" : "0596 59 72 36",
+					"phone2" : "",
+					"horaire" : "Lundi au Samedi: 07:30-19:00<br>Dimanche: 08:00-12:00"
+				}/*,
+				{
+					"lat": 14.620361,
+					"long": -60.909806,
+					"title" : "ECOMAX MARTINIQUE - FRANCOIS",
+					"zip" : "97240",
+					"adress1" : "21 ZA Trianon",
+					"adress2" : "",
+					"phone1" : "05 96 54 52 70",
+					"phone2" : "05 96 54 57 10",
+					"horaire" : "Lundi au Samedi: 08:00-18:45<br>Dimanche: 08:00-12:00"
+				}*/],
+				"SAINT JOSEPH": [{
+					"lat": 14.673833,
+					"long":  -61.028639,
+					"title" : "ECOMAX MARTINIQUE - ST JOSEPH",
+					"zip" : "97212",
+					"adress1" : "Quartier Belle Etoile",
+					"adress2" : "",
+					"phone1" : "05 96 57 32 45",
+					"phone2" : "05 96 57 32 62",
+					"horaire" : "Lundi au Samedi: 08:00-19:15<br>Dimanche: 08:00-12:00"
+				}]
+			},
+			"GF": {
+				"CAYENNE": [{
+					"lat": 4.937361,
+					"long": -52.324472,
+					"title" : "ECOMAX GUYANE - REPUBLIQUE",
+					"zip" : "97300",
+					"adress1" : "2 Boulevard de la République",
+					"adress2" : "",
+					"phone1" : "05 94 28 57 75",
+					"phone2" : "",
+					"horaire" : "Lundi au Samedi: 08:30-20:00<br>Dimanche: 08:30-12:30"
+				}, {
+					"lat": 4.930472,
+					"long": -52.305722,
+					"title" : "ECOMAX GUYANE - BADUEL",
+					"zip" : "97300",
+					"adress1" : "1 Lot Dufournier",
+					"adress2" : "Route de Baduel",
+					"phone1" : "05 94 29 05 82",
+					"phone2" : "05 94 32 95 34",
+					"horaire" : "Lundi au Vendredi: 08:30-20:00<br>Samedi: 08:30-20:00<br>Dimanche: 08:30-12:30"
+				}, {
+					"lat": 4.921028,
+					"long": -52.321417,
+					"title" : "ECOMAX GUYANE - LE TIGRE",
+					"zip" : "97300",
+					"adress1" : "CD2",
+					"adress2" : "Route de Cabassou",
+					"phone1" : "05 94 37 99 46",
+					"phone2" : "05 94 30 07 51",
+					"horaire" : "Lundi au Samedi: 08:30-20:00<br>Dimanche: 08:30-12:30"
+				}],
+				"SAINT LAURENT DU MARONI": [{
+					"lat": 5.487278,
+					"long": -54.034056,
+					"title" : "ECOMAX GUYANE - SAINT-LAURENT",
+					"zip" : "97320",
+					"adress1" : "700 Avenue Christophe Colomb",
+					"adress2" : "",
+					"phone1" : "05 94 27 71 48",
+					"phone2" : "",
+					"horaire" : "Lundi au Samedi: 08:30-19:30<br>Dimanche: 08:30-12:30"
+				}],
+				"KOUROU": [{
+					"lat": 5.162833,
+					"long": -52.640028,
+					"title" : "ECOMAX GUYANE - KOUROU",
+					"zip" : "97310",
+					"adress1" : "2 Place Copernic",
+					"adress2" : "",
+					"phone1" : "05 94 32 00 60",
+					"phone2" : "05 94 32 58 91",
+					"horaire" : "Lundi au Samedi: 08:00-19:30<br>Dimanche: 08:30-12:30"
+				}],/*
+				"SINNAMARY": [{
+					"lat": 5.373833,
+					"long": -52.957528,
+					"title" : "ECOMAX GUYANE - SINNAMARY",
+					"zip" : "97315",
+					"adress1" : "51 Rue Aigle",
+					"adress2" : "",
+					"phone1" : "05 94 34 66 84",
+					"phone2" : "",
+					"horaire" : "Lundi au Samedi: 08:30-13:00 16:00-19:30<br>Dimanche: 08:30-12:30"
+				}],*/
+				"MATOURY": [{
+					"lat": 4.894972,
+					"long":-52.331667,
+					"title" : "ECOMAX GUYANE - LARIVOT",
+					"zip" : "97351",
+					"adress1" : "ZI Terca",
+					"adress2" : "Route Larivot",
+					"phone1" : "05 94 35 28 39",
+					"phone2" : "05 94 35 22 04",
+					"horaire" : "Lundi au Jeudi: 08:30-13:30 16:00-19:00<br>Vendredi au Samedi: 08:30-19:00<br>Dimanche: 08:30-12:30"
+				}, {
+					"lat": 4.869528,
+					"long": -52.319472,
+					"title" : "ECOMAX GUYANE - COGNEAU",
+					"zip" : "97351",
+					"adress1" : "Lotissement Cogneau Lamirande",
+					"adress2" : "Lieu-dit Cogneau",
+					"phone1" : "05 94 27 32 45",
+					"phone2" : "",
+					"horaire" : "Lundi au Jeudi: 08:30-13:00 16:00-19:30<br>Vendredi au Samedi: 08:30-19:30<br>Dimanche: 08:30-12:30"
+				}, {
+					"lat": 4.848361,
+					"long": -52.326000,
+					"title" : "ECOMAX GUYANE - MATOURY",
+					"zip" : "97351",
+					"adress1" : "Centre commercial Makoupy",
+					"adress2" : "",
+					"phone1" : "05 94 35 78 01",
+					"phone2" : "05 94 35 77 68",
+					"horaire" : "Lundi au Jeudi: 08:30-13:00 16:00-19:30<br>Vendredi au Samedi: 08:30-19:30<br>Dimanche: 08:30-12:30"
+				}],
+				"REMIRE MONTJOLY": [{
+					"lat": 4.891861,
+					"long": -52.274667,
+					"title" : "ECOMAX GUYANE - REMIRE",
+					"zip" : "97354",
+					"adress1" : "9K Route Remire Montjoly",
+					"adress2" : "",
+					"phone1" : "05 94 35 50 43",
+					"phone2" : "05 94 35 40 93",
+					"horaire" : "Lundi au Samedi: 08:30-20:00<br>Dimanche: 08:30-12:30"
+				}],
+				"TONATE MACOURIA": [{
+					"lat": 5.009861,
+					"long": -52.469444,
+					"title" : "ECOMAX GUYANE - MACOURIA",
+					"zip" : "97355",
+					"adress1" : "15 Rue Sapotille",
+					"adress2" : "Lotissement Ste Agathe",
+					"phone1" : "05 94 38 73 74",
+					"phone2" : "05 94 38 73 53",
+					"horaire" : "Lundi au Samedi: 08:30-13:00 16:00-19:30<br>Dimanche: 08:30-12:30"
+				}]
+			},
+			"GP": {
+				"LES ABYMES": [{
+					"lat": 16.250389,
+					"long": -61.540361,
+					"title" : "ECOMAX GUADELOUPE - GRAND CAMP",
+					"zip" : "97139",
+					"adress1" : "ZA de Grand Camp Ouest",
+					"adress2" : "Rue johannes Gutembert ",
+					"phone1" : "05 90 41 94 77",
+					"phone2" : "05 90 41 94 76",
+					"horaire" : "Lundi au Samedi: 08:00-19:30<br>Dimanche: 08:00-13:00"
+				},{
+					"lat": 16.256861,
+					"long": -61.515528,
+					"title" : "ECOMAX GUADELOUPE - PETIT PEROU",
+					"zip" : "97139",
+					"adress1" : "Zone Artisanale Petit Pérou",
+					"adress2" : "",
+					"phone1" : "05 90 91 60 23",
+					"phone2" : "05 90 82 94 78",
+					"horaire" : "Lundi au Jeudi: 08:30-12:30 14:30-19:00<br>Vendredi au Samedi: 08:30-19:00<br>Dimanche: 08:00-12:00"
+				},{
+					"lat": 16.254417,
+					"long": -61.528139,
+					"title" : "ECOMAX GUADELOUPE - RAIZET",
+					"zip" : "97139",
+					"adress1" : "Avenue du Général de Gaulle",
+					"adress2" : "Quartier Vieille Poste",
+					"phone1" : "05 90 91 26 14",
+					"phone2" : "05 90 91 39 11",
+					"horaire" : "Lundi au Jeudi: 08:00-13:00 14:00-19:00<br>Vendredi au Samedi: 08:30-19:00<br>Dimanche: 08:00-12:00"
+				},{
+					"lat": 16.254306,
+					"long": -61.523583,
+					"title" : "ECOMAX GUADELOUPE - MARCHE CONSEIL",
+					"zip" : "97139",
+					"adress1" : "Route des Abymes",
+					"adress2" : "Morne Vergain",
+					"phone1" : "05 90 48 49 67",
+					"phone2" : "05 90 57 23 21",
+					"horaire" : "Lundi au Samedi: 08:00-19:30<br>Dimanche: 08:00-13:00"
+				}],
+				"PETIT BOURG": [{
+					"lat": 16.202722,
+					"long": -61.608222,
+					"title" : "ECOMAX GUADELOUPE - COLIN",
+					"zip" : "97190",
+					"adress1" : "Parc d'activité de la Lézarde Colin",
+					"adress2" : "",
+					"phone1" : "05 90 60 89 43",
+					"phone2" : "",
+					"horaire" : "Lundi au Samedi: 08:00-19:30<br>Dimanche: 08:00-13:00"
+				}],
+				"VIEUX HABITANTS": [{
+					"lat": 16.061139,
+					"long": -61.764611,
+					"title" : "ECOMAX GUADELOUPE - VX HABITANTS",
+					"zip" : "97119",
+					"adress1" : "Rue Ferdinand Lobeau",
+					"adress2" : "",
+					"phone1" : "05 90 41 89 50",
+					"phone2" : "05 90 41 89 51",
+					"horaire" : "Lundi au Jeudi: 08:00-12:30 14:30-19:00<br>Vendredi au Samedi: 08:00-19:00<br>Dimanche: 08:00-12:00"
+				}],
+				"POINTE NOIRE": [{
+					"lat": 16.235083,
+					"long": -61.789222,
+					"title" : "ECOMAX GUADELOUPE - POINTE NOIRE",
+					"zip" : "97116",
+					"adress1" : "Rue Baudot",
+					"adress2" : "",
+					"phone1" : "05 90 99 24 03",
+					"phone2" : "05 90 99 26 91",
+					"horaire" : "Lundi au Jeudi: 08:00-12:30 14:30-19:30<br>Vendredi au Samedi: 08:00-18:30<br>Dimanche: 08:00-12:00"
+				}],
+				"LE GOSIER": [{
+					"lat": 16.223347,
+					"long": -61.526250,
+					"title" : "ECOMAX GUADELOUPE - LA MARINA",
+					"zip" : "97190",
+					"adress1" : "27 Centre Commercial Marina",
+					"adress2" : "",
+					"phone1" : "05 90 90 78 41",
+					"phone2" : "05 90 90 81 27",
+					"horaire" : "Lundi au Samedi: 08:30-18:30<br>Dimanche: 08:00-12:00"
+				},{
+					"lat": 16.214722,
+					"long": -61.502639,
+					"title" : "ECOMAX GUADELOUPE - MONTAUBAN",
+					"zip" : "97190",
+					"adress1" : "Montauban",
+					"adress2" : "Gosier",
+					"phone1" : "05 90 85 45 83",
+					"phone2" : "05 90  84 07 05",
+					"horaire" : "Lundi au Samedi: 08:00-19:30<br>Dimanche: 08:00-13:00"
+				}],
+				"GOYAVE": [{
+					"lat": 16.132833,
+					"long": -61.579500,
+					"title" : "ECOMAX GUADELOUPE - GOYAVE",
+					"zip" : "97128",
+					"adress1" : "1201 Fortyl",
+					"adress2" : "",
+					"phone1" : "05 90 95 99 75",
+					"phone2" : "05 90 95 99 25",
+					"horaire" : "Lundi au Jeudi: 08:30-19:00<br>Vendredi au Samedi: 08:00-19:30<br>Dimanche: 08:00-12:00"
+				}],
+				"ANSE BERTRAND": [{
+					"lat": 16.471917,
+					"long": -61.508222,
+					"title" : "ECOMAX GUADELOUPE - ANSE BERTRAND",
+					"zip" : "97121",
+					"adress1" : "Rue Achille René Boisneuf",
+					"adress2" : "",
+					"phone1" : "05 90 22 02 95",
+					"phone2" : "05 90 22 13 70",
+					"horaire" : "Lundi au Jeudi: 08:00-12:30 14:30-19:00<br>Vendredi au Samedi: 08:00-19:00<br>Dimanche: 08:00-12:00"
+				}],
+				"PETIT CANAL": [{
+					"lat": 16.393172,
+					"long": -61.456714,
+					"title" : "ECOMAX GUADELOUPE - LES MANGLES",
+					"zip" : "97131",
+					"adress1" : "Lieu dit Les Mangles",
+					"adress2" : "RN4",
+					"phone1" : "05 90 22 51 44",
+					"phone2" : "05 90 22 51 44",
+					"horaire" : "Lundi au Jeudi: 08:00-12:30 14:30-19:30<br>Vendredi au Samedi: 08:00-19:30<br>Dimanche: 08:00-12:00"
+				}/*,{
+					"lat": 16.377694,
+					"long": -61.488778,
+					"title" : "ECOMAX GUADELOUPE - PETIT CANAL",
+					"zip" : "97131",
+					"adress1" : "Rue Hegésippe Légitimus",
+					"adress2" : "",
+					"phone1" : "05 90 22 62 97",
+					"phone2" : "05 90 22 65 24",
+					"horaire" : "Lundi au Jeudi: 08:30-12:30 14:30-18:30<br>Vendredi au Samedi: 08:30-18:00<br>Dimanche: 08:00-12:00"
+				}*/],
+				"SAINTE ROSE": [{
+					"lat": 16.296111,
+					"long": -61.669472,
+					"title" : "ECOMAX GUADELOUPE - NOLIVIER",
+					"zip" : "97115",
+					"adress1" : "Lieu dit Nolivier",
+					"adress2" : "",
+					"phone1" : "05 90 85 92 60",
+					"phone2" : "05 90 85 87 93",
+					"horaire" : "Lundi au Jeudi: 08:00-12:30 14:30-19:30<br>Vendredi au Samedi: 08:00-19:00<br>Dimanche: 08:00-12:00"
+				},{
+					"lat": 16.327750,
+					"long": -61.693528,
+					"title" : "ECOMAX GUADELOUPE - STE ROSE",
+					"zip" : "97115",
+					"adress1" : "Lieu dit Bebel",
+					"adress2" : "",
+					"phone1" : "05 90 28 11 56",
+					"phone2" : "05 90 28 10 70",
+					"horaire" : "Lundi au Samedi: 08:30-19:00<br>Dimanche: 08:00-12:00"
+				}],
+				"LE LAMENTIN": [{
+					"lat": 16.269750,
+					"long":  -61.631306,
+					"title" : "ECOMAX GUADELOUPE - LAMENTIN",
+					"zip" : "97129",
+					"adress1" : "Route du Pont",
+					"adress2" : "",
+					"phone1" : "05 90 25 94 52",
+					"phone2" : "05 90 25 32 12",
+					"horaire" : "Lundi au Samedi: 08:30-19:00<br>Dimanche: 08:00-12:00"
+				}],
+				"SAINT CLAUDE": [{
+					"lat": 16.014278,
+					"long": -61.710972,
+					"title" : "ECOMAX GUADELOUPE - ST CLAUDE",
+					"zip" : "97120",
+					"adress1" : "Route de Bologne",
+					"adress2" : "Cité Ducharmoy",
+					"phone1" : "05 90 80 77 00",
+					"phone2" : "05 90 80 79 41",
+					"horaire" : "Lundi au Jeudi: 08:00-12:30 14:30-19:30<br>Vendredi au Samedi: 08:00-19:00<br>Dimanche: 08:00-12:00"
+				}],
+				/*"BOUILLANTE": [{
+					"lat": 16.161463,
+					"long":  -61.774244,
+					"title" : "ECOMAX GUADELOUPE - BOUILLANTE",
+					"zip" : "97125",
+					"adress1" : "ZAC Losteau Pigeon",
+					"adress2" : "Lieudit Caféière",
+					"phone1" : "05 90 41 51 25",
+					"phone2" : "",
+					"horaire" : "Lundi au Samedi: 08:00-19:30<br>Dimanche: 08:00-12:00"
+				}],*/
+				"BAIE MAHAULT": [{
+					"lat": 16.261517,
+					"long": -61.592975,
+					"title" : "ECOMAX GUADELOUPE - BAIE-MAHAULT",
+					"zip" : "97122",
+					"adress1" : "Centre Commercial Le Tamarinier",
+					"adress2" : "Belcourt",
+					"phone1" : "05 90 25 13 08",
+					"phone2" : "05 90 92 85 62",
+					"horaire" : "Lundi au Samedi: 08:00-19:00<br>Dimanche: 08:00-12:00"
+				},{
+					"lat": 16.260472,
+					"long": -61.624972,
+					"title" : "ECOMAX GUADELOUPE - DALCIA",
+					"zip" : "97122",
+					"adress1" : "Lieu dit Dalciat",
+					"adress2" : "Belcourt",
+					"phone1" : "05 90 98 08 75",
+					"phone2" : "05 90 98 09 57",
+					"horaire" : "Lundi au Samedi: 08:00-19:00<br>Dimanche: 08:00-12:00"
+				},{
+					"lat": 16.254528,
+					"long": -61.562639,
+					"title" : "ECOMAX GUADELOUPE - LA JAILLE",
+					"zip" : "97122",
+					"adress1" : "Imm SCI Forest immo RDC Bât 4 ",
+					"adress2" : "ZAC de la grande voie, La Jaille Jarry",
+					"phone1" : "05 90 38 43 81",
+					"phone2" : "05 90 41 94 76",
+					"horaire" : "Lundi au Samedi: 08:00-19:30<br>Dimanche: 08:00-13:00"
+				}/*,{
+					"lat": 16.237306,
+					"long": -61.555444,
+					"title" : "ECOMAX GUADELOUPE - JARRY",
+					"zip" : "97122",
+					"adress1" : "16 bd Pointe Jarry - Voie principale",
+					"adress2" : "Z.I. Jarry",
+					"phone1" : "05 90 26 95 70",
+					"phone2" : "05 90 26 90 73",
+					"horaire" : "Lundi au Vendredi: 08:00-18:00<br>Samedi: 08:00-13:00<br>Dimanche: FERME"
+				}*/],
+				"SAINT FRANCOIS": [{
+					"lat": 16.251056,
+					"long": -61.278667,
+					"title" : "ECOMAX GUADELOUPE - SAINT-FRANCOIS",
+					"zip" : "97118",
+					"adress1" : "Rue de la  République",
+					"adress2" : "",
+					"phone1" : "05 90 88 76 69",
+					"phone2" : "05 90 88 66 34",
+					"horaire" : "Lundi au Samedi: 08:00-19:00<br>Dimanche: 08:00-12:00"
+				}],
+				"CAPESTERRE": [{
+					"lat": 16.052000,
+					"long": -61.563861,
+					"title" : "ECOMAX GUADELOUPE - FLAMBOYANTS",
+					"zip" : "97130",
+					"adress1" : "Allée des Flamboyants",
+					"adress2" : "",
+					"phone1" : "05 90 25 40 90",
+					"phone2" : "05 90 41 53 28",
+					"horaire" : "Lundi au Samedi: 08:00-19:30<br>Dimanche: 08:00-13:00"
+				},{
+					"lat": 16.051983,
+					"long": -61.563817,
+					"title" : "ECOMAX GUADELOUPE - CAPESTERRE",
+					"zip" : "97130",
+					"adress1" : "Route de Cacao",
+					"adress2" : "",
+					"phone1" : "05 90 86 10 26",
+					"phone2" : "05 90 86 19 54",
+					"horaire" : "Lundi au Jeudi: 08:00-13:00 15:00-19:00<br>Vendredi au Samedi: 08:00-13:00<br>Dimanche: 08:00-19:30"
+				}],
+				"TROIS RIVIERES": [{
+					"lat": 15.976356,
+					"long": -61.644178,
+					"title" : "ECOMAX GUADELOUPE - TROIS RIVIERES",
+					"zip" : "97114",
+					"adress1" : "Le Bourg",
+					"adress2" : "",
+					"phone1" : "05 90 92 65 23",
+					"phone2" : "05 90 92 65 22",
+					"horaire" : "Lundi au Vendredi: 08:00-12:30 14:30-19:00<br>Samedi: 08:00-19:00<br>Dimanche: 08:00-12:00"
+				}],
+				"LE MOULE": [{
+					"lat": 16.334000,
+					"long": -61.347611,
+					"title" : "ECOMAX GUADELOUPE - LE MOULE",
+					"zip" : "97160",
+					"adress1" : "Rue Saint-Jean",
+					"adress2" : "",
+					"phone1" : "05 90 23 08 23",
+					"phone2" : "05 90 23 04 76",
+					"horaire" : "Lundi au Samedi: 08:00-19:00<br>Dimanche: 08:00-12:00"
+				}],
+				"BAILLIF": [{
+					"lat": 16.012667,
+					"long": -61.744056,
+					"title" : "ECOMAX GUADELOUPE - BAILLIF",
+					"zip" : "97123",
+					"adress1" : "Zone Artisanale Père Blanc",
+					"adress2" : "",
+					"phone1" : "05 90 81 02 86",
+					"phone2" : "05 90 81 09 32",
+					"horaire" : "Lundi au Samedi: 08:30-19:00<br>Dimanche: 08:00-12:00"
+				}],
+				"POINTE A PITRE": [{
+					"lat": 16.247833,
+					"long": -61.539306,
+					"title" : "ECOMAX GUADELOUPE - BERGEVIN",
+					"zip" : "97110",
+					"adress1" : "Rue Ho Chi Ming",
+					"adress2" : "ZI Bergevin",
+					"phone1" : "05 90 82 92 36",
+					"phone2" : "05 90 91 47 48",
+					"horaire" : "Lundi au Samedi: 08:00-19:30<br>Dimanche: 08:00-13:00"
+				},{
+					"lat": 16.235750,
+					"long": -61.535833,
+					"title" : "ECOMAX GUADELOUPE - LA DARSE",
+					"zip" : "97110",
+					"adress1" : "8 Quai Lardenoy",
+					"adress2" : "",
+					"phone1" : "05 90 82 95 79",
+					"phone2" : "05 90 91 50 16",
+					"horaire" : "Lundi au Vendredi: 08:00-18:00<br>Samedi: 08:00-14:00<br>Dimanche: 08:00-18:00"
+				}],
+				"BASSE TERRE": [{
+					"lat": 15.994722,
+					"long": -61.731056,
+					"title" : "ECOMAX GUADELOUPE - BASSE TERRE",
+					"zip" : "97102",
+					"adress1" : "Rue Christophe Colomb",
+					"adress2" : "",
+					"phone1" : "05 90 81 61 16",
+					"phone2" : "05 90 81 31 80",
+					"horaire" : "Lundi au Vendredi: 08:30-19:00<br>Samedi: 07:00-18:00<br>Dimanche: 08:00-12:00"
+				}],
+				"MORNE A L'EAU": [{
+					"lat": 16.338778,
+					"long": -61.456139,
+					"title" : "ECOMAX GUADELOUPE - MORNE A EAU",
+					"zip" : "97111",
+					"adress1" : "Lieu Dit Richeval",
+					"adress2" : "",
+					"phone1" : "05 90 24 69 82",
+					"phone2" : "05 90 24 37 10",
+					"horaire" : "Lundi au Jeudi: 08:00-13:30 15:00-19:00<br>Vendredi au Samedi: 08:00-19:00<br>Dimanche: 08:00-12:00"
+				}],
+				"SAINTE ANNE": [{
+					"lat": 16.244583,
+					"long": -61.369500,
+					"title" : "ECOMAX GUADELOUPE - SAINTE-ANNE",
+					"zip" : "97180",
+					"adress1" : "Poirier Gissac",
+					"adress2" : "",
+					"phone1" : "05 90 85 34 64",
+					"phone2" : "05 90 85 36 85",
+					"horaire" : "Lundi au Samedi: 08:00-19:00<br>Dimanche: 08:00-12:00"
+				}]
+			}
+		};
+		
+		/*$(".google-map-magasin").gMap({
+			maptype: 'ROADMAP',
+			scrollwheel: false,
+			zoom: 16,
+		});*/
+		
+		var markers = [];
+		 var map = new google.maps.Map( $('.google-map-magasin').get(0),
+			{
+				maptype: 'ROADMAP',
+				scrollwheel: false,
+				zoom: 8,
+				fullscreenControl: false,
+				mapTypeControl: false,
+				streetViewControl: false
+			});
+
+		$('#town').empty();
+		/*for(var departement in magasins)
+		{*/
+			var departement = 'GF';
+
+			items = {};
+			Object.keys(magasins[departement]).sort().forEach(function(key) {
+			  items[key] = magasins[departement][key];
+			});
+			
+			 
+			
+			$('#town').append("<option value=''>CHOISISSEZ LA VILLE</option>");
+			
+			for(var town in items)
+			{
+				$('#town').append("<option value='"+departement+' - '+town+"'>"+town+"</option>");
+				
+				for(var localisation in magasins[departement][town])
+				{
+					var gps = magasins[departement][town][localisation];
+					/*$(".google-map-magasin").gMap('addMarker',
+						{
+							latitude: gps.lat,
+							longitude: gps.long,
+							content: '<h1>'+gps.title+' ('+gps.zip+')</h1>'+
+								'<p>'+gps.adress1+'<br>'+gps.adress2+'</p>'+
+								'<p>'+gps.phone1+'<br>'+gps.phone1+'</p>'+
+								'<p>'+gps.horaire+'</p>',
+								icon: 'http://ecomax.creativ3.com/favicon.png',
+								iconsize:  [32,32]
+						}
+					);*/
+					
+					var marker = new google.maps.Marker({
+						position: {lat: gps.lat, lng: gps.long},
+						map: map,
+					    icon: 'http://ecomax.creativ3.com/favicon.png'
+					});
+				
+					marker.infowindow = new google.maps.InfoWindow({
+						content: '<h1>'+gps.title+' ('+gps.zip+')</h1>'+
+								'<p>'+gps.adress1+'<br>'+gps.adress2+'</p>'+
+								'<p>'+gps.phone1+'<br>'+gps.phone1+'</p>'+
+								'<p>'+gps.horaire+'</p>'
+					});
+					
+					infowindows.push(marker.infowindow);
+
+					marker.addListener('click', function () {
+						for (var i in infowindows)
+							infowindows[i].close();
+							
+						this.infowindow.open(map, this);
+					});
+					
+					gps['markers'] = marker;
+					markers.push(marker);
+				}
+			}
+			
+			
+		/*}*/
+	
+		$('#town').on('change', function(){
+			if($(this).val() == "")
+			{
+				$('#town').find('option').each(function(){
+					if($(this).val() != "")
+					{
+						$val = $(this).val().split(' - ');
+						$gps = magasins[$val[0]][$val[1]];
+						
+						for(var i in $gps)
+							$gps[i]["markers"].setVisible(true);
+							
+						
+					}
+				});
+				
+				$val = $('#town').find('option:last').val().split(' - ');
+				switch($val[0])
+				{
+					 case "MQ":
+						map.setCenter({lat: 14.641528, lng: -61.024174});
+						map.setZoom(11);
+					 break;
+					 
+					 case "GP":
+						map.setCenter({lat: 16.265, lng: -61.551});
+						map.setZoom(11);
+					 break;
+					 
+					 case "GF":
+						map.setCenter({lat: 3.933889, lng: -53.125782});
+						map.setZoom(8);
+					 break;
+				}
+			}
+			else
+			{
+				$val = $(this).val().split(' - ');
+				$gps = magasins[$val[0]][$val[1]];
+				
+				
+				for(var i in markers)
+					markers[i].setVisible(false);
+
+				for(var i in $gps)
+					$gps[i]["markers"].setVisible(true);
+					
+				/*$(".google-map-magasin").gMap('centerAt', {
+					latitude: $gps[0].lat,
+					longitude: $gps[0].long,
+					zoom: 16
+				});*/
+				google.maps.event.trigger($gps[0]["markers"], 'click');
+				map.setCenter({lat: $gps[0].lat, lng: $gps[0].long});
+				map.setZoom(13);
+				}
+		
+		}).trigger('change');
+		
+		function updatePosition(position){
+			var selectDepartement = "";
+			var selectTown = "";
+			var magasin = null;
+			var distance = null;
+			
+			for(var departement in magasins)
+			{
+				for(var town in magasins[departement])
+				{
+					for(var localisation in magasins[departement][town])
+					{
+						var gps = magasins[departement][town][localisation];
+						/*$(".google-map-magasin").gMap('addMarker',
+							{
+								latitude: gps.lat,
+								longitude: gps.long,
+								content: '<h1>'+gps.title+' ('+gps.zip+')</h1>'+
+								'<p>'+gps.adress1+'<br>'+gps.adress2+'</p>'+
+								'<p>'+gps.phone1+'<br>'+gps.phone1+'</p>'+
+								'<p>'+gps.horaire+'</p>',
+								icon: 'http://ecomax.creativ3.com/favicon.png',
+								iconsize: [32,32]
+							}
+						);*/
+						
+						var result = Math.abs(getDistanceFromLatLonInKm(position.coords.latitude, position.coords.longitude, gps.lat, gps.long));
+						if(distance == null || distance > result)
+						{
+							selectDepartement = departement;
+							selectTown = town;
+							magasin = gps;
+							distance = result;
+						}
+					}
+				}
+			}
+			
+			$('#town').val(selectDepartement+" - "+selectTown);
+			/*$(".google-map-magasin").gMap('centerAt', {
+				latitude: magasin.lat,
+				longitude: magasin.long,
+				zoom: 16
+			});*/
+			
+	
+			for(var i in markers)
+				markers[i].setVisible(false);
+
+			magasin["markers"].setVisible(true);
+			
+			google.maps.event.trigger(magasin["markers"], 'click');
+			map.setCenter({lat:magasin.lat, lng: magasin.long});
+			map.setZoom(13);
+		}
+	});
+	</script>	
+<%end%>

@@ -1,0 +1,47 @@
+<%= form_with(model: item, local: true) do |form| %>
+    <%= hidden_field_tag :dpt, params[:dpt] %>
+  <% if item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h2>
+
+      <ul>
+        <% item.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+
+  </div>
+
+  <div class="field">
+    <%= form.label :price %>
+    <%= form.number_field :price, step: 0.01 %>
+  </div>
+  <div class="field">
+    <%= form.label :city_id %>
+    <%= form.select :city_id, options_for_select(villes(params[:dpt])) %>
+  </div>
+  <div class="field">
+<h2>Ajouter une (des) photo(s) de l'artice servi</h2>
+<%=form.fields_for :served_items do |item|%>
+<%=item.label :image, "Image"%>
+<%=item.file_field :image%>
+<%end%>
+  </div>
+  <div class="field">
+<h2>Ajouter une photo de l'article vendu</h2>
+<%=form.fields_for :sold_items do |item|%>
+<%=item.label :image, "Image"%>
+<%=item.file_field :image%>
+<%end%>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
