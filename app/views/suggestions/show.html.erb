@@ -1,0 +1,126 @@
+
+<%=content_for :css do%>
+	<link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/css/custom.css">
+<style>
+.petitcontainer{
+text-align:center;
+    position: relative;
+    margin: 0 auto;
+}
+.row1{
+
+    margin: 0 auto;
+
+    position: relative;
+    width: 940px;
+
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    //flex-wrap: wrap;
+    //margin-top: calc(var(--bs-gutter-y) * -1);
+    //margin-right: calc(var(--bs-gutter-x) * -.5);
+
+}
+.newproduct {
+float:left;
+clear:right;
+height:100%;
+}
+.mylogo {
+position:relative;
+width:80%;
+height:auto;
+}
+.superposelogo {
+position:absolute;
+right:0%;
+top:80%;
+}
+</style>
+
+<%end%>
+<%=content_for :title do%>
+<%=@suggestion.title%>
+<%end%>
+<p id="notice"><%= notice %></p>
+<%@suggestion.served_items.each do |pic|%>
+<div class="petitcontainer" style="text-align:center;">    
+<div class="row1" style="text-align:center;">    
+
+<div class="mylogo spip_logo spip_logos ">
+		<img class="newproduct" alt='#TITRE' src="/assets/nouveauproduit.png" style='width:30%; ' />       
+		<img class=" newproduct" alt='#TITRE' src="/assets/<%=pic.image%>" style='width:70%; ' />       
+		<img class="superposelogo" alt='#TITRE' src="/assets/petitlogo.png" />       
+</div>
+
+ </div>  
+ </div>  
+<%end%>
+          
+
+            
+            <div class="row">
+            	<div class="span12">
+                	
+                    <div class="portfolio-item" style="text-align:center; margin-top:60px;">
+                    	
+                        <div class="portfolio-item-preview">
+                            
+                            <h1><%=@suggestion.item.name%> <br/><%=number_to_currency(@suggestion.item.price)%></h1>    
+                            
+                        </div><!-- end .portfolio-item-preview -->
+                        
+                        <div class="portfolio-item-description" style="color:#999;">
+                            
+                            <div id="container_etiquette">
+                            		<div id="product_visuel">
+                                    <div id="product_visuel_img">
+                                        
+<%@suggestion.served_items.each do |pic|%>
+                                        	<img class="spip_logo spip_logos" alt='<%=@suggestion.item.name%>' src="/assets/<%=pic.image%>" width="700" height="700" />
+<%end%>
+                                        
+                                    </div>
+                                 </div>
+<p>
+
+                            		<%=@suggestion.content%><br class='autobr' />
+<i> <br class='autobr' />
+<%if @suggestion.start_at || @suggestion.end_at%>
+Offre valable
+
+
+<%if @suggestion.start_at && @suggestion.end_at%>
+ du 
+<%=l(@suggestion.start_at, format: :item)%>
+
+au 
+<%=l(@suggestion.end_at, format: :item)%>
+
+<%elsif end_at%>
+ jusqu'au 
+<%=l(@suggestion.end_at, format: :item)%>
+<%end%>
+<%end%>
+
+</i>
+
+</p>
+<p><span class='spip_document_132 spip_documents spip_documents_center'>
+
+<%@suggestion.sold_items.each do |pic|%>
+<img src='/assets/<%=pic.image%>' width="700" height="700" alt="" />
+<%end%>
+
+</span></p>
+                            </div>
+                            
+                        </div><!-- end .portfolio-item-description -->
+                        
+                    </div><!-- end .portfolio-item -->
+                    
+                </div><!-- end .span4 -->
+                
+            </div><!-- end .row -->
+

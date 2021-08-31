@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @item.name %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @item.city_id %>
+</p>
+
+<%= link_to 'Write new suggestion', newsuggest_item_path(@item) %> |
+<%= link_to 'Edit', edit_item_path(@item) %> |
+<%= link_to 'Back', items_path %>

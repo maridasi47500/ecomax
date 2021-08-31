@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> 
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1,requiresActiveX=true">
+    
+    
+	<title>Nos magasins - Ecomax Martinique, Guadeloupe, Guyane !</title>
+	<meta name="description" content="Retrouvez nos magasins pour faire le plein de bonnes affaires ! Forcément 1 près de chez vous !">
+    
+    <!-- /// Favicons ////////  -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="favicon.png">
+
+
+	<!-- /// Google Fonts ////////  -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,300,700">
+    
+    <!-- /// FontAwesome Icons 4.1.0 ////////  -->
+	<link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/css/fontawesome/font-awesome.min.css">
+    
+    <!-- /// Custom Icon Font ////////  -->
+    <!--<link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/css/iconfontcustom/icon-font-custom.css">  -->
+    
+	<!-- /// Template CSS ////////  -->
+    <link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/css/base.css">
+    <link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/css/grid.css">
+    <link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/css/elements.css">
+    <link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/css/layout.css">
+
+	<!-- /// Boxed layout ////////  -->
+	<link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/css/boxed.css">
+    
+	<!-- /// JS Plugins CSS ////////  -->
+	<link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/js/revolutionslider/css/settings.css">
+    <link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/js/revolutionslider/css/custom.css">
+    <link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/js/bxslider/jquery.bxslider.css">
+    <link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/js/magnificpopup/magnific-popup.css">
+    <link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/js/animations/animate.min.css">
+	<link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/js/itplayer/css/YTPlayer.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<%=yield :css%>    
+    <!-- /// Template Skin CSS ////////  -->
+	<!-- <link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/css/skins/default.css"> -->
+    <!-- <link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/css/skins/red.css"> -->
+    <!-- <link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/css/skins/orange.css"> -->
+    <!-- <link rel="stylesheet" href="http://ecomax.creativ3.com/_layout/css/skins/grey.css"> -->
+ 
+ 	
+    
+</head>
+<body class="sticky-header">
+
+<div id="myModal5" class="modal inmodal fade" aria-hidden="true" role="dialog" tabindex="-1" style="display:none">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="loading_svg mt-02 mb-02"><i class="fas fa-spinner fa-pulse fa-2x"></i></div>
+        </div>
+    </div>
+</div>
+    
+    <noscript>
+        <div class="alert warning">
+            <i class="fa fa-times-circle"></i> You seem to have Javascript disabled. This website needs javascript in order to function properly!
+        </div>
+    </noscript>
+    	
+	<!--[if lte IE 8]>
+         <div class="alert error">
+        	You are using an <strong>outdated</strong> browser. Please 
+        	<a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">upgrade your browser</a> 
+            to improve your experience.
+		</div>
+    <![endif]-->
+
+	<div id="wrap">
+	
+		 <div id="header">
+        
+		<!-- /// HEADER  //////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+			<div class="row">
+				<div class="span3">
+				
+					<!-- // Logo // -->
+                  <%=link_to(root_path(dpt: params[:dpt]), id: "logo") do %>
+                    	<img src="http://ecomax.creativ3.com/_layout/images/BrowserPreview_tmp_03.jpg" alt="" class="responsive-img">
+                    <%end%>
+				
+				</div><!-- end .span3 -->
+
+
+<%if !user_signed_in?%>
+                       <div  class="span9">
+
+                        	<%=link_to "", onclick: "connect();return false;" do%>
+                            	<span>Se connecter</span>
+                            <%end%>    
+<%else%>
+                       <div  class="span3">
+<a><b><span><%=current_user.firstname%></span></b></a>
+                	<%=link_to "Se déconnecter",deconn_path(dpt: params[:dpt])%>
+                        </div>
+				<div class="span9">
+				
+                	<%=link_to "#",id: "mobile-menu-trigger" do%>
+
+                    	<i class="fa fa-bars"></i>
+                    <%end%>
+                    <%end%>
+                    
+                    <!-- // Custom search // --> <div class="select-lieu">
+                       <%=select_tag :dpt, options_for_select(pagemagasin,dpt(params[:dpt])),{name:'',id:'', onchange:"window.location=this.value;"}%>
+                    </div>
+                    
+					<!-- // Menu // -->
+					<ul class="sf-menu fixed" id="menu">
+<%if user_signed_in?%>
+                       <li>
+                        	<%=link_to new_item_path(dpt:params[:dpt]) do%>
+                            	<span>Enregistrer un article</span>
+                            <%end%>    
+                        </li>
+<%end%>
+                       <li>
+                  <%=link_to root_path(dpt: params[:dpt]) do %>
+                            	<span>Accueil</span>
+                            <%end%>    
+                        </li>
+                        <li>
+                              
+                        </li>
+                        
+                       <li>
+                        	<%=link_to itm_path(dpt: params[:dpt]) do%>
+                            	<span>En ce moment</span>
+                            <%end%>    
+                        </li>
+						<li>
+                        	<%=link_to findstores_path(page: 'magasin', dpt: params[:dpt]) do%>
+
+                            	<span>Nos magasins</span>
+                            <%end%>    
+                        </li>
+					</ul>
+
+				</div><!-- end .span9 -->
+			</div><!-- end .row -->
+
+		<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+		</div><!-- end #header -->        
+		<div id="content">
+		
+  <%=yield :banner%> 
+          <div class="row">
+              <div class="span12">
+                <div class="headline">
+                    <h1><%=yield :title%></h1>
+                </div><!-- end .headline -->
+              </div> 
+<%=yield :content%>
+          </div>  
+<%=yield %>
+
+            
+        
+            
+            
+           
+            
+		<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+		</div><!-- end #content -->
+		
+         <div id="footer">
+		
+		<!-- /// FOOTER     ///////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+			<div id="footer-top">
+            	
+             <!-- /// FOOTER TOP    ////////////////////////////////////////////////////////////////////////////////////////////////// -->
+            
+            	<div class="row">
+                	<div class="span12" id="footer-top-widget-area-1">
+                    	
+                        <div class="widget widget_text">
+                        
+                            <div class="textwidget">
+                                
+                                <h1 style="color:#ffffff">  <%=villesmagasin(params[:dpt])%> ... 1 près de chez vous !</h1>
+                                
+                                
+                            </div><!-- end .textwidget -->
+                            
+                        </div><!-- end .widget_text -->
+                        
+                    </div><!-- end .span8 -->
+                   
+                </div><!-- end .row -->
+            
+            <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->    
+                
+            </div><!-- end #footer-top -->
+                
+            </div><!-- end #footer-top -->
+            
+            <div id="footer-middle">
+            	
+            <!-- /// FOOTER MIDDLE    /////////////////////////////////////////////////////////////////////////////////////////////// -->
+            
+            	<div class="row">
+                	<div class="span3" id="footer-middle-widget-area-1">
+                    	
+                        <div class="widget ewf_contact_info">
+                
+                            <!--<h3 class="widget-title">ACCEUIL</h3>-->
+                            
+                            <ul>
+                                <li>
+                                    <a href="http://www.ecomax.fr/spip.php?dpt=GF">ACCUEIL</a>
+                                </li>
+                                <li>
+                                 
+                                </li>
+                                <li>                               	
+                                    <a href="spip.php?page=magasin&amp;dpt=GF">NOS MAGASINS</a>
+                                </li>
+                            </ul>
+                            
+                        </div><!-- end .ewf_widget_contact_info -->
+                    
+                      
+                        
+                    </div><!-- end .span3 -->
+                    <div class="span4" id="footer-middle-widget-area-2">
+                     <!--<h3 class="widget-title">&nbsp;</h3>-->
+                   
+                   <div class="textwidget">
+                            	
+                                <p style="color:#303B8C; font:normal 12px arial;">Tous nos magasins sont ouverts :<br>
+                                
+                                
+                                  <strong>Du lundi au jeudi :</strong> de 8h30 à 13h30<br>et 16h00 à 19h00<br>
+<strong>Du vendredi au samedi :</strong> de 8h30 à 19h00<br>
+<strong>Les dimanches & jours fériés :</strong> de 8h30 à 12h30.</p>
+                                
+                                
+                                
+                            </div>
+                            </div>
+                            <div class="span5" id="footer-middle-widget-area-4">
+                            <!--<h3 class="widget-title">&nbsp;</h3>-->
+                            <div class="textwidget">
+                            <img src="http://ecomax.creativ3.com/_layout/images/logo_footer.png" alt="" class="responsive-img " style="float:right">
+                            </div>
+                            </div>
+                    
+                </div><!-- end .row -->
+            
+            <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->    
+                
+            </div><!-- end #footer-middle -->
+            
+          
+            
+		<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+		</div><!-- end #footer -->
+        
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-122841953-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-122841953-1');
+</script>  
+          
+            
+		<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+		</div><!-- end #footer -->
+		
+	</div><!-- end #wrap -->
+    
+    <a id="back-to-top" href="#">
+    	<i class="ifc-up4"></i>
+    </a>
+
+    <!-- /// jQuery ////////  -->
+	<script src="http://ecomax.creativ3.com/_layout/js/jquery-2.1.1.min.js"></script>
+
+    <!-- /// ViewPort ////////  -->
+	<script src="http://ecomax.creativ3.com/_layout/js/viewport/jquery.viewport.js"></script>
+    
+    <!-- /// Easing ////////  -->
+	<script src="http://ecomax.creativ3.com/_layout/js/easing/jquery.easing.1.3.js"></script>
+
+    <!-- /// SimplePlaceholder ////////  -->
+	<script src="http://ecomax.creativ3.com/_layout/js/simpleplaceholder/jquery.simpleplaceholder.js"></script>
+
+    <!-- /// Fitvids ////////  -->
+    <script src="http://ecomax.creativ3.com/_layout/js/fitvids/jquery.fitvids.js"></script>
+    
+    <!-- /// Animations ////////  -->
+    <script src="http://ecomax.creativ3.com/_layout/js/animations/animate.js"></script>
+     
+    <!-- /// Superfish Menu ////////  -->
+	<script src="http://ecomax.creativ3.com/_layout/js/superfish/hoverIntent.js"></script>
+    <script src="http://ecomax.creativ3.com/_layout/js/superfish/superfish.js"></script>
+    
+    <!-- /// Revolution Slider ////////  -->
+    <script src="http://ecomax.creativ3.com/_layout/js/revolutionslider/js/jquery.themepunch.plugins.min.js"></script>
+    <script src="http://ecomax.creativ3.com/_layout/js/revolutionslider/js/jquery.themepunch.revolution.min.js"></script>
+    
+    <!-- /// bxSlider ////////  -->
+	<script src="http://ecomax.creativ3.com/_layout/js/bxslider/jquery.bxslider.min.js"></script>
+    
+   	<!-- /// Magnific Popup ////////  -->
+	<script src="http://ecomax.creativ3.com/_layout/js/magnificpopup/jquery.magnific-popup.min.js"></script>
+    
+    <!-- /// Isotope ////////  -->
+	<script src="http://ecomax.creativ3.com/_layout/js/isotope/imagesloaded.pkgd.min.js"></script>
+	<script src="http://ecomax.creativ3.com/_layout/js/isotope/isotope.pkgd.min.js"></script>
+    
+    <!-- /// Parallax ////////  -->
+	<script src="http://ecomax.creativ3.com/_layout/js/parallax/jquery.parallax.min.js"></script>
+
+	<!-- /// EasyPieChart ////////  -->
+	<script src="http://ecomax.creativ3.com/_layout/js/easypiechart/jquery.easypiechart.min.js"></script>
+    
+	<!-- /// YTPlayer ////////  -->
+	<script src="http://ecomax.creativ3.com/_layout/js/itplayer/jquery.mb.YTPlayer.js"></script>
+	
+    <!-- /// Easy Tabs ////////  -->
+    <script src="http://ecomax.creativ3.com/_layout/js/easytabs/jquery.easytabs.min.js"></script>	
+	
+    <!-- /// Waypoints ////////  -->
+    <script src="http://ecomax.creativ3.com/_layout/js/waypoints/waypoints.min.js"></script>
+	<script src="http://ecomax.creativ3.com/_layout/js/waypoints/waypoints-sticky.min.js"></script>
+    
+    <!-- /// Form validate ////////  -->
+    <script src="http://ecomax.creativ3.com/_layout/js/jqueryvalidate/jquery.validate.min.js"></script>
+    
+	<!-- /// Form submit ////////  -->
+    <script src="http://ecomax.creativ3.com/_layout/js/jqueryform/jquery.form.min.js"></script>
+    
+
+
+	<!-- /// Twitter ////////  -->
+	<script src="http://ecomax.creativ3.com/_layout/js/twitter/twitterfetcher.js"></script>
+	
+	<!-- /// Custom JS ////////  -->
+	<script src="http://ecomax.creativ3.com/_layout/js/scripts.js"></script>
+	<script src="http://ecomax.creativ3.com/_layout/js/plugins.js"></script>
+<%=yield :scriptjs%>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<script>
+function signup(){
+$('#myModal5 .modal-content').load('/modalSignup.php',function(){$('#myModal5').modal('show');});
+
+return false;
+}
+function connect(){
+$('#myModal5 .modal-content').load('/template/modal/modalLogin.php',function(){$('#myModal5').modal('show');});
+return false;
+}
+</script>
+	
+   
+</body>
+</html>

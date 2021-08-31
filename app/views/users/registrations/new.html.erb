@@ -1,0 +1,106 @@
+<div class="contentModal">    
+<div class="modal-header">
+                    <h1 class="col-xs-10">S'inscrire</h1>
+                <button type="button" id="close" class="close" data-dismiss="modal" aria-hidden="true"><i class="far fa-times"></i></button>
+
+
+    </div>
+    <div class="modal-body">
+
+
+<%= form_for(resource, as: resource_name, url: create_userinscription_path, html: {onsubmit: "verifform(this);return false;",id:"forminsc"}) do |f| %>
+  <div class="field">
+    <%= f.label :firstname, "Prénom" %><br />
+    <%= f.text_field :firstname%>
+  </div>
+  <div class="field">
+    <%= f.label :lastname, "Nom de famille" %><br />
+    <%= f.text_field :lastname%>
+  </div>
+  <div class="field">
+    <%= f.label :email, "E-mail" %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password, "Mot de passe" %><br />
+    <%= f.password_field :password, autocomplete: "current-password" %>
+  </div>
+  <div class="field">
+    <%= f.label :password_confirmation, "Confirmez votre mot de passe" %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "current-password" %>
+  </div>
+
+
+  <div class="actions">
+    <%= f.submit "M'inscrire" %>
+  </div>
+<% end %>
+<p id="msg"></p>
+                                <a href="" onclick="connect();return false;">
+                                <span>Se connecter</span>
+                            </a>
+
+</div>
+</div>
+<script>
+function verifform(F){
+//verif password
+if (F.user_firstname.value.length === 0){
+msg.style.color='red';
+msg.innerHTML ="Le prénom n'est pas rempli";
+return false;
+}
+if (F.user_lastname.value.length === 0){
+msg.style.color='red';
+msg.innerHTML ="Le nom de famille n'est pas rempli";
+return false;
+}
+
+if (F.user_email.value.length === 0){
+msg.style.color='red';
+msg.innerHTML ="L'e-mail n'est pas rempli";
+return false;
+}
+if (F.user_password.value.length === 0){
+msg.style.color='red';
+msg.innerHTML ="Le mot de passe n'est pas rempli";
+return false;
+}
+if (!(F.user_password.value === F.user_password_confirmation.value)) {
+msg.style.color='red';
+msg.innerHTML ="Les mots de passe ne sont pas identiques.";
+return false;
+};
+var email=F.user_email.value;
+if (email.length > 0){
+//verif utilisateur email does not exist
+$.ajax({
+url: "<%=verifemail_path%>",
+type:'post',
+data:{
+email: F.user_email.value
+},
+success:function(data){
+if (data) {
+//exist
+msg.style.color='red';
+msg.innerHTML ="L'email existe.";
+} else {
+//not exist
+
+msg.innerHTML ="";
+msg.style.color='green';
+
+}
+},
+complete:function(){
+if (msg.innerHTML=== '' && msg.style.color==="green") {
+F.submit();
+};
+}
+});
+}
+return false;
+};
+</script>

@@ -1,0 +1,151 @@
+<p><%=notice%></p>
+<%=content_for :css do%>
+<style>
+.span3d {
+
+
+    width: 220px;
+    margin-left: 30px;
+    float: left;
+
+
+
+}
+.petitcontainer{
+text-align:center;
+    position: relative;
+    margin: 0 auto;
+}
+.row1{
+
+    margin: 0 auto;
+
+    position: relative;
+    width: 940px;
+
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    //flex-wrap: wrap;
+    //margin-top: calc(var(--bs-gutter-y) * -1);
+    //margin-right: calc(var(--bs-gutter-x) * -.5);
+
+}
+
+</style>
+<%end%>
+<%=content_for :title do%>
+Ecomax <%=@monpays%>			
+<%end%>
+<div class="petitcontainer">
+<div class="row1">
+
+            	<div class="span3d" >
+                
+                	
+                    <div class="icon-box-2">
+					 
+                        		<img class="responsive-img" src="/assets/catalogue.png" alt="Catalogue Ecomax" >
+                             <div class="icon-box-content">
+                                 <h3 style="border-bottom:1px solid #303b8c; color:#e10f21;">NOTRE CATALOGUE</h3>
+                                 <p>Bientôt</p>
+                        		</div>
+                        
+                    </div><!-- end .icon-box-2 -->
+                    
+                </div><!-- end .span4 -->
+                <div class="span3d"> <!-- span3a quand 3 blocs / span5 quand 2 blocs -->
+                	
+                    <div class="icon-box-2">
+                         
+                        <a href="spip.php?page=magasin&amp;dpt=GF"><img class='responsive-img' alt='Trouver Ecomax' src="/assets/arton12.jpg?1492553321" width="304" height="427" /></a>
+  
+                        <div class="icon-box-content">
+                        
+                        	<h3 style="border-bottom:1px solid #303b8c;">
+                            	<a href="spip.php?page=magasin&amp;dpt=GF">OÙ NOUS TROUVER ?</a>
+                            </h3>
+                        	
+                            <p>  <%=villesmagasin(params[:dpt])%></p>
+                            
+                            
+                        
+                        </div><!-- end .icon-box-content -->
+                        
+                    </div><!-- end .icon-box-2 -->
+                    
+                </div><!-- end .span4 --> 
+                <div class="span3d" > <!-- span3a quand 3 blocs / span5 quand 2 blocs -->
+                	
+                    <div class="icon-box-2">
+                        
+                        <a href="https://www.facebook.com/Ecomax<%=@monpays.capitalize%>"><img class="responsive-img" src="/assets/fb.png" alt="Page Facebook" ></a>
+                        <div class="icon-box-content">
+                        
+                        	<h3 style="border-bottom:1px solid #303b8c">
+                            	<a href="https://www.facebook.com/Ecomax<%=@monpays.capitalize%>">PAGE FACEBOOK</a>
+                            </h3>
+                        	
+                            <p>#LesSuggestionsEcomax</p>
+                            
+                            
+                        
+                        </div><!-- end .icon-box-content -->
+                        
+                    </div><!-- end .icon-box-2 -->
+                    
+                </div><!-- end .span4 -->
+
+</div>
+</div>
+<%=content_for :banner do%>			
+<div class="fullwidthbanner-container" style="max-height: 400px !important;">
+				<div class="fullwidthbanner">
+                
+                    <ul>
+						
+                      
+                      
+
+                        <li data-transition="fade">
+                        	<!--# LOGO_ARTICLE-->
+                          <img src="http://ecomax.creativ3.com/IMG/png/projo-op-an-25-3.png" alt="" data-bgposition="top" 
+         					data-bgfit="contain" 
+         					data-bgrepeat="no-repeat">
+                        </li>
+                        
+                        
+
+                        <li data-transition="fade">
+                        	<!--# LOGO_ARTICLE-->
+                          <img src="http://ecomax.creativ3.com/IMG/jpg/1-5.jpg" alt="" data-bgposition="top" 
+         					data-bgfit="contain" 
+         					data-bgrepeat="no-repeat">
+                        </li>
+                        
+                        
+
+                        <li data-transition="fade">
+                        	<!--# LOGO_ARTICLE-->
+                          <img src="http://ecomax.creativ3.com/IMG/jpg/2-5.jpg" alt="" data-bgposition="top" 
+         					data-bgfit="contain" 
+         					data-bgrepeat="no-repeat">
+                        </li>
+                        
+                        
+
+                        <li data-transition="fade">
+                        	<!--# LOGO_ARTICLE-->
+                          <img src="http://ecomax.creativ3.com/IMG/jpg/3-4.jpg" alt="" data-bgposition="top" 
+         					data-bgfit="contain" 
+         					data-bgrepeat="no-repeat">
+                        </li>
+                        
+                        
+                                                  
+                    </ul>
+                    
+                </div><!-- end .fullwidthbanner -->
+            </div><!-- end .fullwidthbanner-container -->
+
+<%end%>
